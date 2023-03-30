@@ -1,0 +1,40 @@
+{
+   "name": "poster",
+   "version": "0.0.0",
+   "type": "module",
+   "scripts": {
+      "dev": "vite",
+      "dev:host": "vite --host",
+      "build": "vite build",
+      "preview": "vite preview",
+      "preinstall": "npx npm-force-resolutions"
+   },
+   "dependencies": {
+      "@emotion/react": "^11.10.6",
+      "@emotion/styled": "^11.10.6",
+      "@headlessui/react": "^1.7.13",
+      "@heroicons/react": "^2.0.16",
+      "@mui/material": "^5.11.12",
+      "classnames": "^2.3.2",
+      "dotenv": "^16.0.3",
+      "node-vibrant": "^3.1.6",
+      "react": "^18.2.0",
+      "react-color": "^2.19.3",
+      "react-colorful": "^5.6.1",
+      "react-dom": "^18.2.0",
+      "react-router-dom": "^6.8.2"
+   },
+   "devDependencies": {
+      "@types/react": "^18.0.28",
+      "@types/react-dom": "^18.0.11",
+      "@vitejs/plugin-react": "^3.1.0",
+      "autoprefixer": "^10.4.14",
+      "postcss": "^8.4.21",
+      "react-error-overlay": "^6.0.9",
+      "tailwindcss": "^3.2.7",
+      "vite": "^4.1.0"
+   },
+   "resolutions": {
+      "react-error-overlay": "6.0.9"
+   }
+}
