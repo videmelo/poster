@@ -6,7 +6,7 @@ const Footer = () => {
          <div className="container justify-center">
             <p className="font-medium text-base">
                Made by{' '}
-               <a href="https://videmelo.dev" className="text-blue">
+               <a href="https://github.com/videmelo" className="text-blue">
                   VideMelo
                </a>
             </p>

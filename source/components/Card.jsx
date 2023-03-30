@@ -100,7 +100,7 @@ function Card(props) {
                </section>
                <footer className="flex justify-between items-center pt-4">
                   <img src={spotify} className="w-[100px]" />
-                  <span className="font-extrabold text-[9px] uppercase text-dark">poster.videmelo.dev</span>
+                  <span className="font-extrabold text-[9px] uppercase text-dark">posrterfy.vercel.app</span>
                   <span className="font-extrabold text-[9px] leading-[9px] uppercase text-dark text-end">
                      Realesed on <br /> March 03, 2023
                   </span>

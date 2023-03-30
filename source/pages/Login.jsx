@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
 function Login() {
-   const CLIENT_ID = 'f1d41f5054c64bb2b9daaae71500fccc';
-   const REDIRECT_URI = 'http://192.168.1.102:5173/login';
+   const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+   const REDIRECT_URI = import.meta.env.VITE_SPOTIFY_REDIRECT_URI;
    const AUTH_ENDPOINT = 'https://accounts.spotify.com/authorize';
    const RESPONSE_TYPE = 'token';
    const SCOPE = 'user-top-read';
