@@ -92,6 +92,7 @@ function Poster() {
             window.location.href = '/';
          }
          if (res.status == 403) {
+            // if you don't have a client with quota, you can only register users manually :/
             return;
          }
          res.json().then((data) => {
@@ -174,7 +175,7 @@ function Poster() {
          ) : (
             <Fragment>
                <Card attr={{ type, from, rank, colors, signature, data: data[type] }} />
-               <div className="flex flex-col gap-5 justify-center">
+               <div className="flex w-full flex-col gap-5 justify-center">
                   <h2 className="text-3xl font-extrabold">Personalize</h2>
                   <ul className="flex flex-col gap-[35px]">
                      <li className="flex flex-col">
@@ -190,7 +191,7 @@ function Poster() {
                      </li>
                      <li className="flex flex-col">
                         <h3 className="text-lg font-medium mb-2">From</h3>
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-4 flex-wrap">
                            <Radio id="last-month" input={from} set={fromSet}>
                               Last Month
                            </Radio>

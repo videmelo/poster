@@ -10,9 +10,9 @@ function Card(props) {
    const title = props.attr.data.list[0].name
 
    return (
-      <div className="w-[450px] min-h-[687px] bg-beige">
+      <div className="max-w-[450px]  w-full min-h-[687px] bg-beige">
          <div className="container flex-col m-0 !p-[25px] h-full">
-            <div className="w-[400px] h-[400px]">
+            <div className="">
                <img src={props.attr.data.image} alt="poster" className="w-full h-full object-cover" />
             </div>
             <div className="flex flex-col justify-between h-full min-h-[225px] mt-[5px] relative">
@@ -23,10 +23,10 @@ function Card(props) {
                   })}
                >
                   <div className="flex flex-col">
-                     <div className="flex absolute left-0 top-[-5px]">
+                     <div className="flex absolute left-0 w-full top-[-5px]">
                         {!props.attr.colors.hide &&
                            props.attr.colors.list.map((color, index) => (
-                              <div className="w-20 h-[5px]" style={{ backgroundColor: color }} key={index}></div>
+                              <div className="w-[20%] h-[5px]" style={{ backgroundColor: color }} key={index}></div>
                            ))}
                      </div>
                      <ul className="mt-6 text-start">
@@ -59,7 +59,7 @@ function Card(props) {
                            })}
                         >
                            <h1
-                              className={classNames('text-4xl font-black leading-7', {
+                              className={classNames('text-[6.9vw] xsm:text-4xl font-black leading-7', {
                                  'mt-[10px]': props.attr.rank == 1,
                               })}
                            >
@@ -67,7 +67,7 @@ function Card(props) {
                            </h1>
                            {props.attr.rank == 1 && <h3 className="text-xs font-medium leading-3">2020</h3>}
                         </div>
-                        <h2 className="text-base font-extrabold leading-[inherit]">{props.attr.data.list[0]?.album?.artists[0]?.name}</h2>
+                        <h2 className="text-[3.1vw] xsm:text-base font-extrabold leading-[inherit]">{props.attr.data.list[0]?.album?.artists[0]?.name}</h2>
                      </div>
                      <div
                         className={classNames('flex', {

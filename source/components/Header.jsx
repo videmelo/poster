@@ -37,7 +37,7 @@ const Header = () => {
    };
 
    return (
-      <header className="pt-5 pb-[125px] max-sm:pb-[50px] max-sm:pt-3 relative">
+      <header className="pt-5 pb-[50px] max-sm:pt-3 relative">
          <div className="container justify-between items-center h-[75px]">
             <button onClick={toggleMenu} className="hidden items-center select-none bg-transparent cursor-pointer p-4 max-sm:flex">
                <InformationCircleIcon className="w-[30px] h-[30px] text-black" />

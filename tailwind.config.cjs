@@ -12,8 +12,8 @@ module.exports = {
          beige: '#dad9d4',
       },
       screens: {
-         xxsm: '320px',
-         xsm: '340px',
+         xxsm: '340px',
+         xsm: '520px',
          sm: '655px',
          md: '768px',
          lg: '1024px',
