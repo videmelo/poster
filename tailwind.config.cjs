@@ -20,8 +20,10 @@ module.exports = {
          xlg: '1280px',
          xxlg: '1440px',
       },
-      fontFamily: {
-         aletheia: ['aletheia', 'cursive'],
+      extend: {
+         fontFamily: {
+            aletheia: ['aletheia'],
+         },
       },
    },
    plugins: [],

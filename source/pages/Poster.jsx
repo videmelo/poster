@@ -1,4 +1,4 @@
-import { React, useState, useEffect, Fragment } from 'react';
+import { React, useState, useEffect, Fragment, useRef } from 'react';
 
 import { TwitterPicker } from 'react-color';
 import { HexColorPicker } from 'react-colorful';
@@ -8,9 +8,13 @@ import Vibrant from 'node-vibrant';
 import Card from '../components/Card';
 import Radio from '../components/Radio';
 
+import { toPng } from "html-to-image";
+
 function Poster() {
    const token = localStorage.getItem('token');
    const [data, dataSet] = useState({});
+
+   const cardRef = useRef();
 
    useEffect(() => {
       if (!token) {
@@ -25,6 +29,7 @@ function Poster() {
       }).then((res) => {
          // 403 happens because the client is in development mode, so if you don't have a client with quota, you can only register users manually :/
          if (res.status == 401 || res.status == 403) {
+            if (res.status == 403) alert('Error: 403 - Forbidden. Please register your app on Spotify.');
             window.localStorage.removeItem('token');
             window.location.href = '/';
             return;
@@ -122,7 +127,13 @@ function Poster() {
    }
 
    function handlePalette(palette) {
-      return [palette.DarkVibrant.hex, palette.DarkMuted.hex, palette.Muted.hex, palette.LightMuted.hex, palette.LightVibrant.hex];
+      return [
+         palette.DarkVibrant.hex,
+         palette.DarkMuted.hex,
+         palette.Muted.hex,
+         palette.LightMuted.hex,
+         palette.LightVibrant.hex,
+      ];
    }
 
    function handleColor(color, index) {
@@ -131,6 +142,25 @@ function Poster() {
          list: colors.list.map((c, i) => (i == index ? color?.hex || color : c)),
       });
    }
+
+   async function download() {
+      if (!cardRef.current) return;
+
+      await document.fonts.load('1em Aletheia');
+      await document.fonts.ready;
+
+      try {
+         const dataUrl = await toPng(cardRef.current, {
+            cacheBust: true,
+         });
+         const link = document.createElement('a');
+         link.download = 'card.png';
+         link.href = dataUrl;
+         link.click();
+      } catch (error) {
+         console.error('Erro ao gerar imagem:', error);
+      }
+   };
 
    return (
       <div className="container gap-20 max-lg:flex-col items-center justify-center">
@@ -159,22 +189,31 @@ function Poster() {
                         <h3 className="text-lg font-medium mb-2  bg-grey text-transparent">Rank</h3>
                         <div className="flex items-center">
                            <div className="flex items-center gap-2">
-                              <button className={`text-xl whitespace-nowrap font-extrabold  bg-grey text-transparent`}>Top {rank}</button>
+                              <button
+                                 className={`text-xl whitespace-nowrap font-extrabold  bg-grey text-transparent`}
+                              >
+                                 Top {rank}
+                              </button>
                            </div>
                         </div>
                      </li>
                      <li className="flex flex-col">
-                        <h3 className="text-lg font-medium mb-2  bg-grey text-transparent">Colors</h3>
+                        <h3 className="text-lg font-medium mb-2  bg-grey text-transparent">
+                           Colors
+                        </h3>
                      </li>
                      <li className="flex flex-col">
-                        <h3 className="text-lg font-medium mb-2  bg-grey text-transparent">Signature</h3>
+                        <h3 className="text-lg font-medium mb-2  bg-grey text-transparent">
+                           Signature
+                        </h3>
                      </li>
                   </ul>
                </div>
             </Fragment>
          ) : (
             <Fragment>
-               <Card attr={{ type, from, rank, colors, signature, data: data[type] }} />
+               <Card reference={cardRef} attr={{ type, from, rank, colors, signature, data: data[type] }} />
+
                <div className="flex w-full flex-col gap-5 justify-center">
                   <h2 className="text-3xl font-extrabold">Personalize</h2>
                   <ul className="flex flex-col gap-[35px]">
@@ -203,19 +242,19 @@ function Poster() {
                            </Radio>
                         </div>
                      </li>
-                     <li className="flex flex-col">
+                     {/* <li className="flex flex-col">
                         <h3 className="text-lg font-medium mb-2">Rank</h3>
                         <div className="flex items-center">
                            <div className="flex items-center gap-2">
                               <button
                                  className={`text-xl whitespace-nowrap font-extrabold`}
-                                 onClick={() => rankSet(rank == 10 ? 1 : rank == 1 ? 5 : 10)}
+                                 onClick={() => rankSet(rank == 10 ? 5 : rank == 5 ? 1 : 10)}
                               >
                                  Top {rank}
                               </button>
                            </div>
                         </div>
-                     </li>
+                     </li> */}
                      <li className="flex flex-col">
                         <h3 className="text-lg font-medium mb-2">Colors</h3>
                         <div>
@@ -224,7 +263,10 @@ function Poster() {
                                  <Popover key={index} className="relative">
                                     {({ open }) => (
                                        <>
-                                          <Popover.Button className="w-8 h-8 rounded-md" style={{ background: color }}></Popover.Button>
+                                          <Popover.Button
+                                             className="w-8 h-8 rounded-md"
+                                             style={{ background: color }}
+                                          ></Popover.Button>
                                           <Transition
                                              show={open}
                                              as={Fragment}
@@ -235,10 +277,13 @@ function Poster() {
                                              leaveFrom="transform opacity-100 scale-100"
                                              leaveTo="transform opacity-0 scale-95"
                                           >
-                                             <Popover.Panel static className={`absolute z-10 bottom-14`}>
+                                             <Popover.Panel
+                                                static
+                                                className={`absolute z-10 bottom-14`}
+                                             >
                                                 <HexColorPicker
                                                    className="!w-[168px] mb-2"
-                                                   color={color[type]}
+                                                   color={color}
                                                    onChange={(color) => handleColor(color, index)}
                                                 />
                                                 <TwitterPicker
@@ -256,7 +301,11 @@ function Poster() {
                               ))}
                            </div>
                            <span className="flex items-center gap-1 text-base font-medium">
-                              <input type="checkbox" onChange={(e) => colorsSet({ ...colors, hide: e.target.checked })} /> Hide
+                              <input
+                                 type="checkbox"
+                                 onChange={(e) => colorsSet({ ...colors, hide: e.target.checked })}
+                              />{' '}
+                              Hide
                            </span>
                         </div>
                      </li>
@@ -270,8 +319,22 @@ function Poster() {
                            maxLength={15}
                         />
                         <span className="flex items-center gap-1">
-                           <input type="checkbox" onChange={(e) => signatureSet({ ...signature, hide: e.target.checked })} /> Hide
+                           <input
+                              type="checkbox"
+                              onChange={(e) =>
+                                 signatureSet({ ...signature, hide: e.target.checked })
+                              }
+                           />{' '}
+                           Hide
                         </span>
+                     </li>
+                     <li>
+                        <button
+                           className="bg-dark text-white px-4 py-2 rounded-md"
+                           onClick={download}
+                        >
+                           Download
+                        </button>
                      </li>
                   </ul>
                </div>
