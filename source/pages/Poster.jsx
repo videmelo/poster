@@ -212,9 +212,10 @@ function Poster() {
             </Fragment>
          ) : (
             <Fragment>
+
                <Card reference={cardRef} attr={{ type, from, rank, colors, signature, data: data[type] }} />
 
-               <div className="flex w-full flex-col gap-5 justify-center">
+               <div className="flex flex-col gap-5 justify-center">
                   <h2 className="text-3xl font-extrabold">Personalize</h2>
                   <ul className="flex flex-col gap-[35px]">
                      <li className="flex flex-col">
